@@ -1,0 +1,10 @@
+{
+	"files.associations": {
+		"stdio.h": "c",
+		"mlx42.h": "c",
+		"__config": "c",
+		"algorithm": "c",
+		"complex": "c",
+		"functional": "c"
+	}
+}
