@@ -5,6 +5,10 @@
 		"__config": "c",
 		"algorithm": "c",
 		"complex": "c",
-		"functional": "c"
+		"functional": "c",
+		"__bit_reference": "c",
+		"bitset": "c",
+		"chrono": "c",
+		"unordered_map": "c"
 	}
 }

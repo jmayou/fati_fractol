@@ -6,52 +6,64 @@
 /*   By: fel-aziz <fel-aziz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:02:52 by fel-aziz          #+#    #+#             */
-/*   Updated: 2024/07/08 17:00:22 by fel-aziz         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:54:27 by fel-aziz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
-#define FRACTOL_H
+# define FRACTOL_H
 
-#include "../../MLX42/include/MLX42/MLX42.h"
+# include "../../MLX42/include/MLX42/MLX42.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # define WIDTH 800
 # define HEIGHT 600
-# define JUL 0
-#define MAN	1
+# define BLUE 0Xfff0f0
 
-typedef struct complx_s
+typedef struct s_atof
 {
-	double re;
-	double  im;
+	int			i;
+	int			sing;
+	int			n1;
+	float		n2;
+	int			k;
+}				t_atof;
 
-} complx_t;
-
-
-typedef struct open_s
+typedef struct s_complx
 {
-	int 	i ;
-	int 	j;
-	mlx_t *mlx;
+	double		re;
+	double		im;
 
-	mlx_image_t *image;	
-	complx_t z ;
-	complx_t c;
+}				t_complx;
 
-} open_t;
+typedef struct s_open
+{
+	int			save;
+	double		color;
+	int			count;
+	double		zoom;
+	int			i;
+	int			j;
+	mlx_t		*mlx;
 
+	mlx_image_t	*image;
+	t_complx	z;
+	t_complx	c;
 
-void ft_open_wind( open_t *data , int i , char *str);
-void ft_count ( open_t *data );
-void	ft_check_args(int ac , char *str[] ,open_t *data);
-int	ft_strcmp( char *s1,  char *s2);
-float	ft_atof(char *str);
-int	check_is_number(char *str);
-int ft_strlen(char *str);
-void ft_julai( open_t *data );
+}				t_open;
 
+void			mlx_scroll_func(double xdelta, double ydelta, void *param);
+void			ft_open_wind(t_open *data);
+void			ft_count(t_open *data);
+void			ft_check_args(int ac, char *str[], t_open *data);
+int				ft_strcmp(char *s1, char *s2);
+float			ft_atof(char *str);
+int				check_is_number(char *str);
+int				ft_strlen(char *str);
+void			ft_julai(t_open *data);
+void			ft_mandelbrot(t_open *data);
+void			my_mlx_key(mlx_key_data_t keydata, void *param);
 
 #endif

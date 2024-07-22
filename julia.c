@@ -6,58 +6,76 @@
 /*   By: fel-aziz <fel-aziz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:53:38 by fel-aziz          #+#    #+#             */
-/*   Updated: 2024/07/08 19:00:00 by fel-aziz         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:11:55 by fel-aziz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void ft_count ( open_t *data )
+void	set_color(t_open *data, int color)
 {
-	double tmp ;
-	tmp = ( data->z.re * data->z.re) - (data->z.im * data->z.im) + data->c.re ;
-	data->z.im =  2 * ( data->z.re * data->z.im) + data->c.im;
+	data->color = data->count * color;
+	if (data->count == 101)
+		data->color = 0;
+}
+
+void	ft_count(t_open *data)
+{
+	double	tmp;
+
+	tmp = (data->z.re * data->z.re) - (data->z.im * data->z.im) + data->c.re;
+	data->z.im = (2 * data->z.re * data->z.im) + data->c.im;
 	data->z.re = tmp;
-	// printf("[%f]\n",data->z.im);
-	// printf ("[%f]\n",data->z.re);
-	// exit(1);
 }
 
-void ft_julai( open_t *data )
+void	ft_julai(t_open *data)
 {
-
-	int count = 0;
-	data->i = (-WIDTH / 2) ;
-	// printf("%d",data->i);
-
-	while ( data->i < WIDTH - 1)
-	{	
-		data->z.re = data->i;
-		data->j = (- HEIGHT / 2);
-		// printf("%d",data->j);
-		// exit(1);
-		data->z.im  = data->j;
-
-		while ( data->j < (HEIGHT - 1))
+	data->i = (-WIDTH / 2);
+	while (data->i <= WIDTH / 2)
+	{
+		data->j = (-HEIGHT / 2);
+		while (++data->j <= (HEIGHT / 2))
 		{
-			count = 0;
-			while ( (data->z.re * data->z.re ) * (data->z.im * data->z.im) <= 4 && count < 10)
+			data->z.re = data->i / data->zoom;
+			data->z.im = data->j / data->zoom;
+			data->count = 1;
+			while ((data->z.re * data->z.re) + (data->z.im * data->z.im) <= 4
+				&& data->count <= 100)
 			{
-				ft_count( data);
-				count++;
+				ft_count(data);
+				data->count++;
 			}
-			printf("----->%d\n",data->j);
-			printf("------>%d\n",data->i);
-			if ( count != 100)
-			{
-				mlx_put_pixel(data->image,(WIDTH / 2) - data->i,(HEIGHT / 2) + data->j ,0xFF0000FF);	
-			}
-			
-			data->j++;
+			set_color(data, 0Xfff0f0ff);
+			mlx_put_pixel(data->image, (WIDTH / 2) + data->i, (HEIGHT / 2)
+				- data->j, data->color);
 		}
-
 		data->i++;
-	} 
+	}
 }
 
-
+void	ft_mandelbrot(t_open *data)
+{
+	data->i = (-WIDTH / 2);
+	while (data->i <= WIDTH / 2)
+	{
+		data->j = (-HEIGHT / 2);
+		while (++data->j <= (HEIGHT / 2))
+		{
+			data->z.re = 0;
+			data->z.im = 0;
+			data->c.re = data->i / data->zoom;
+			data->c.im = data->j / data->zoom;
+			data->count = 1;
+			while ((data->z.re * data->z.re) + (data->z.im * data->z.im) <= 4
+				&& data->count <= 100)
+			{
+				ft_count(data);
+				data->count++;
+			}
+			set_color(data, 0Xfff0f0ff);
+			mlx_put_pixel(data->image, (WIDTH / 2) + data->i, (HEIGHT / 2)
+				- data->j, data->color);
+		}
+		data->i++;
+	}
+}
